@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MENU_ITEMS } from "../constants";
 import { actionItemClick } from '../slice/menuSlice';
 
+import { socket } from "../socket";
+
 interface RootState {
   menu: {
     activeMenuItem: string;
@@ -126,6 +128,9 @@ const Home: React.FC = () => {
     // If you are not using socket, you can remove the following lines:
     // socket.on('beginPath', handleBeginPath);
     // socket.on('drawLine', handleDrawLine);
+    socket.on("connect", () => {
+      console.log("client connected");
+    });
 
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
