@@ -6,8 +6,9 @@ import styles from './index.module.css'
 
 import { COLORS, MENU_ITEMS } from '../constants'
 import {changeColor, changeBrushSize } from '../slice/toolboxSlice'
-//import { socket } from "@/socket";
+import { socket } from "../socket";
 interface RootState {
+    toolbox: any;
     menu: {
       activeMenuItem: string;
       // other properties of menu...
@@ -24,12 +25,12 @@ const Toolbox = () => {
 
     const updateBrushSize = (e: { target: { value: any; }; }) => {
         dispatch(changeBrushSize({item: activeMenuItem, size: e.target.value}))
-      //  socket.emit('changeConfig', {color, size: e.target.value })
+        socket.emit('changeConfig', {color, size: e.target.value })
     }
 
     const updateColor = (newColor: string) => {
         dispatch(changeColor({item: activeMenuItem, color: newColor}))
-        //socket.emit('changeConfig', {color: newColor, size })
+        socket.emit('changeConfig', {color: newColor, size })
     }
     
     return (<div className={styles.toolboxContainer}>

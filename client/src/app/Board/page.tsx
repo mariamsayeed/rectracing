@@ -75,10 +75,10 @@ const Home: React.FC = () => {
     changeConfig(color, size);
 
     // If you are not using socket, you can remove the following lines:
-    // socket.on('changeConfig', handleChangeConfig);
-    // return () => {
-    //   socket.off('changeConfig', handleChangeConfig);
-    // };
+    socket.on('changeConfig', handleChangeConfig);
+    return () => {
+      socket.off('changeConfig', handleChangeConfig);
+    };
   }, [color, size]);
 
   useLayoutEffect(() => {
@@ -103,11 +103,14 @@ const Home: React.FC = () => {
     const handleMouseDown = (e: MouseEvent | TouchEvent) => {
       shouldDraw.current = true;
       beginPath((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX, (e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY);
+       socket.emit('beginPath', { x: (e as MouseEvent).clientX, y: (e as MouseEvent).clientY });
+      
     };
 
     const handleMouseMove = (e: MouseEvent | TouchEvent) => {
       if (!shouldDraw.current) return;
       drawLine((e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX, (e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY);
+      socket.emit('drawLine', { x: (e as MouseEvent).clientX, y: (e as MouseEvent).clientY });  
     };
 
     const handleMouseUp = () => {
@@ -116,6 +119,13 @@ const Home: React.FC = () => {
       drawHistory.current.push(imageData);
       historyPointer.current = drawHistory.current.length - 1;
     };
+    const handleBeginPath = (path: { x: number; y: number; }) => {
+      beginPath(path.x, path.y);
+    }
+
+    const handleDrawLine = (path: { x: number; y: number; }) => {
+      drawLine(path.x, path.y);
+    }
 
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mousemove', handleMouseMove);
@@ -126,12 +136,9 @@ const Home: React.FC = () => {
     canvas.addEventListener('touchend', handleMouseUp);
 
     // If you are not using socket, you can remove the following lines:
-    // socket.on('beginPath', handleBeginPath);
-    // socket.on('drawLine', handleDrawLine);
-    socket.on("connect", () => {
-      console.log("client connected");
-    });
-
+     socket.on('beginPath', handleBeginPath);
+     socket.on('drawLine', handleDrawLine);
+  
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
       canvas.removeEventListener('mousemove', handleMouseMove);
@@ -142,8 +149,8 @@ const Home: React.FC = () => {
       canvas.removeEventListener('touchend', handleMouseUp);
 
       // If you are not using socket, you can remove the following lines:
-      // socket.off('beginPath', handleBeginPath);
-      // socket.off('drawLine', handleDrawLine);
+       socket.off('beginPath', handleBeginPath);
+      socket.off('drawLine', handleDrawLine);
     };
   }, []);
 
