@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MENU_ITEMS } from "../constants";
 import { actionItemClick } from '../slice/menuSlice';
 
-import { socket } from "../socket";
+import {socket} from '../socket';
 
 interface RootState {
   menu: {
