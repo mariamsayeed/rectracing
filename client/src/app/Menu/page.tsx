@@ -12,6 +12,7 @@ import { MENU_ITEMS } from '../constants'
 interface RootState {
   menu: {
     activeMenuItem: string;
+    actionMenuItem: string;
     // other properties of menu...
   };
   // other slices of your state...
