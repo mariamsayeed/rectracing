@@ -2,12 +2,14 @@
 import Menu from "./Menu/page";
 import Toolbox from "./Toolbox/page";
 import Board from "./Board/page";
+import RecButton from "./RecButton";
 
 export default function Home() {
   return (
     <div>
       <Menu />
       <Toolbox />
+      <RecButton/>
       <Board />
     </div>
   );

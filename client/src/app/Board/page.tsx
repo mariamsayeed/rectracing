@@ -177,7 +177,8 @@ const Home: React.FC = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef}></canvas>;
+  return <canvas ref={canvasRef}>
+  </canvas>
 };
 
 export default Home;
