@@ -7,6 +7,7 @@ const initialState = {
 }
 
 export const menuSlice = createSlice({
+    
     name: "menu",
     initialState,
     reducers: {
