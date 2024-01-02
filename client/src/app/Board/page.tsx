@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -149,7 +149,7 @@ const Home: React.FC = () => {
       canvas.removeEventListener('touchend', handleMouseUp);
 
       // If you are not using socket, you can remove the following lines:
-       socket.off('beginPath', handleBeginPath);
+      socket.off('beginPath', handleBeginPath);
       socket.off('drawLine', handleDrawLine);
     };
   }, []);
