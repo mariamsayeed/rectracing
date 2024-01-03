@@ -1,0 +1,9 @@
+.drawing {
+    cursor: url('/pencil.svg') 0 0, auto;
+  }
+  .eraser {
+    cursor: url('/eraser.svg') 0 0, auto; 
+    }
+    /* .eraser {
+        cursor: auto;
+      } */

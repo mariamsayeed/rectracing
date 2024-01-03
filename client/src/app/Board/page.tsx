@@ -6,6 +6,7 @@ import { MENU_ITEMS } from "../constants";
 import { actionItemClick } from "../slice/menuSlice";
 
 import { socket } from "../socket";
+import styles from './index.module.css';
 
 interface RootState {
   menu: {
@@ -14,6 +15,7 @@ interface RootState {
   };
   toolbox: {
     [key: string]: {
+      type: string;
       color: string;
       size: number;
     };
@@ -26,11 +28,14 @@ interface Path {
 }
 
 const Home: React.FC = () => {
+ 
+ 
   const dispatch = useDispatch();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawHistory = useRef<ImageData[]>([]);
   const historyPointer = useRef<number>(0);
   const shouldDraw = useRef<boolean>(false);
+  
 
   const { activeMenuItem, actionMenuItem } = useSelector(
     (state: RootState) => state.menu
@@ -38,6 +43,8 @@ const Home: React.FC = () => {
   const { color, size } = useSelector(
     (state: RootState) => state.toolbox[activeMenuItem]
   );
+  const activeTool = useSelector((state: RootState) => state.toolbox[activeMenuItem]);
+ 
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -111,9 +118,19 @@ const Home: React.FC = () => {
       context.lineTo(x, y);
       context.stroke();
     };
+    
 
     const handleMouseDown = (e: MouseEvent | TouchEvent) => {
       shouldDraw.current = true;
+      console.log(activeMenuItem);
+  if (activeMenuItem === 'ERASER') {
+    canvasRef.current?.classList.add(styles.eraser);
+    console.log('Eraser class added');
+  } else {
+    canvasRef.current?.classList.add(styles.drawing);
+    console.log('Pencil class added');
+  }
+     // canvasRef.current?.classList.add(styles.drawing); 
       beginPath(
         (e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX,
         (e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY
@@ -138,6 +155,7 @@ const Home: React.FC = () => {
 
     const handleMouseUp = () => {
       shouldDraw.current = false;
+     // canvasRef.current?.classList.remove(styles.drawing, styles.eraser);
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       drawHistory.current.push(imageData);
       historyPointer.current = drawHistory.current.length - 1;

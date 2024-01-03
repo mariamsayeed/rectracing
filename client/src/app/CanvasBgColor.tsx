@@ -45,10 +45,10 @@ document.body.style.backgroundColor = String(backgroundColor);
     <div style={{ position: 'absolute', bottom: 0, left: 0 }}>
       <Tabs value={value} onChange={handleChange}>
         <TabsList>
-        <Tab value={0} style={value === 0 ? { color: 'grey' } : {}}>white</Tab>
-          <Tab value={1} style={value === 1 ? { color: 'grey' } : {}}>purple</Tab>
-          <Tab value={2} style={value === 2 ? { color: 'grey' } : {}}>blue</Tab>
-          <Tab value={3} style={value === 3 ? { color: 'grey' } : {}}>pink</Tab>
+        <Tab value={0} style={value === 0 ? { color: 'black' } : {}}>white</Tab>
+          <Tab value={1} style={value === 1 ? { color: 'black' } : {}}>purple</Tab>
+          <Tab value={2} style={value === 2 ? { color: 'black' } : {}}>blue</Tab>
+          <Tab value={3} style={value === 3 ? { color: 'black' } : {}}>pink</Tab>
         </TabsList>
       </Tabs>
     </div>
