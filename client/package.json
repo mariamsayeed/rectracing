@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/base": "^5.0.0-beta.29",
+    "@mui/system": "^5.15.2",
     "@reduxjs/toolkit": "^2.0.1",
     "classnames": "^2.3.2",
     "next": "14.0.4",

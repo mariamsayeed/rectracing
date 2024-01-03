@@ -23,7 +23,11 @@ const config: Config = {
       text1: '#3d3d3d',
       text2: '#e3e2fe',
       text3: '#bae6fd',
-      text4: '#09090b'
+      text4: '#09090b',
+      white: '#FFFCF7',
+      purple: '#fae8ff',
+      blue: '#ADD8E6',
+      pink: '#FFB6C1'
     }
   },
   plugins: [],
