@@ -21,7 +21,9 @@ const config: Config = {
       border1: '#b8b8b8',
       border2: '#d6d6d6',
       text1: '#3d3d3d',
-      text2: '#e3e2fe'
+      text2: '#e3e2fe',
+      text3: '#bae6fd',
+      text4: '#09090b'
     }
   },
   plugins: [],
