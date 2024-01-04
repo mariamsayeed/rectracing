@@ -7,6 +7,8 @@ const RecButton: React.FC = () => {
     const [isRecording, setIsRecording] = useState<boolean>(false);
     const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const [timer, setTimer] = useState(0);
+    let intervalId: NodeJS.Timeout;
 
     const startRecording = async (): Promise<void> => {
         try {
@@ -20,6 +22,9 @@ const RecButton: React.FC = () => {
             setIsRecording(true);
             setRecordedChunks([]);
             mediaRecorder.start();
+            intervalId = setInterval(() => {
+                setTimer((prevTime) => prevTime + 1);
+            }, 1000);
         } catch (error) {
             console.error('Error starting recording:', error);
         }
@@ -28,6 +33,8 @@ const RecButton: React.FC = () => {
     const stopRecording = (): void => {
         mediaRecorderRef.current?.stop();
         setIsRecording(false);
+        clearInterval(intervalId);
+        setTimer(0);
     };
 
     const handleDataAvailable = (event: BlobEvent): void => {
@@ -66,7 +73,9 @@ const RecButton: React.FC = () => {
                     <button  className='mt-4 ml-4 bg-text3 hover:bg-text2 text-white font-semibold py-1 px-2 border-b-2 border-solid hover:border-solid border-text4 rounded-md'  onClick={startRecording}>Start Recording</button>
                     )}
             </div>
-
+            <div className='mt-4 ml-4'>
+               {Math.floor(timer/60)}:{timer%60} 
+            </div>
             {recordedChunks.length > 0 && (
                 <div>
                     <button
