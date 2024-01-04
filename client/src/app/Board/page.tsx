@@ -75,6 +75,7 @@ const Home: React.FC = () => {
 
     dispatch(actionItemClick(null));
   }, [actionMenuItem, dispatch]);
+  
 
   useEffect(() => {
     if (!canvasRef.current) return;
