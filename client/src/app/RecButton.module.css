@@ -48,3 +48,11 @@
     border-width: 0.25rem;
     border-radius: 0.5rem;
 }
+/* RecButton.module.css */
+.cameraOverlay {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 9999;
+}
+
