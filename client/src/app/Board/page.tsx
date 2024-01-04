@@ -123,13 +123,13 @@ const Home: React.FC = () => {
     const handleMouseDown = (e: MouseEvent | TouchEvent) => {
       shouldDraw.current = true;
       console.log(activeMenuItem);
-  if (activeMenuItem === 'ERASER') {
-    canvasRef.current?.classList.add(styles.eraser);
-    console.log('Eraser class added');
-  } else {
-    canvasRef.current?.classList.add(styles.drawing);
-    console.log('Pencil class added');
-  }
+      if (canvasRef.current) {
+        if (activeMenuItem === 'ERASER') {
+          canvasRef.current.style.cursor = 'url(/eraser-icon.png), auto'; // Adjust path as needed
+        } else {
+          canvasRef.current.style.cursor = 'url(/pencil.svg), auto'; // Adjust path as needed
+        }
+      }
      // canvasRef.current?.classList.add(styles.drawing); 
       beginPath(
         (e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX,
@@ -155,7 +155,13 @@ const Home: React.FC = () => {
 
     const handleMouseUp = () => {
       shouldDraw.current = false;
+  
      // canvasRef.current?.classList.remove(styles.drawing, styles.eraser);
+    //  if (activeMenuItem === 'ERASER') {
+    //   canvasRef.current?.classList.remove(styles.eraser);
+    // } else {
+    //   canvasRef.current?.classList.remove(styles.drawing);
+    // }
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       drawHistory.current.push(imageData);
       historyPointer.current = drawHistory.current.length - 1;
