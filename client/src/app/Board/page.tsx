@@ -77,10 +77,15 @@ const Home: React.FC = () => {
   }, [actionMenuItem, dispatch]);
   useEffect(() => {
     if (canvasRef.current) {
+      const context = canvasRef.current.getContext("2d")!;
       if (activeMenuItem === 'ERASER') {
         canvasRef.current.style.cursor = 'url(/eraser.svg) 0 0, auto'; // Adjust path as needed
+        context.globalCompositeOperation = 'destination-out';
+        context.strokeStyle = 'rgba(0,0,0,1)'; // Color doesn't matter, but alpha should be 1
       } else {
         canvasRef.current.style.cursor = 'url(/pencil.svg) 0 0, auto'; // Adjust path as needed
+        context.globalCompositeOperation = 'source-over';
+        // context.strokeStyle should be set to the desired color for the pencil
       }
     }
   }, [activeMenuItem]);
