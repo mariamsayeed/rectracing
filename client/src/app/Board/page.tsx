@@ -75,6 +75,15 @@ const Home: React.FC = () => {
 
     dispatch(actionItemClick(null));
   }, [actionMenuItem, dispatch]);
+  useEffect(() => {
+    if (canvasRef.current) {
+      if (activeMenuItem === 'ERASER') {
+        canvasRef.current.style.cursor = 'url(/eraser.svg) 0 0, auto'; // Adjust path as needed
+      } else {
+        canvasRef.current.style.cursor = 'url(/pencil.svg) 0 0, auto'; // Adjust path as needed
+      }
+    }
+  }, [activeMenuItem]);
   
 
   useEffect(() => {
@@ -87,6 +96,7 @@ const Home: React.FC = () => {
       context.strokeStyle = newColor;
       context.lineWidth = newSize;
     };
+   
 
     const handleChangeConfig = (config: { color: string; size: number }) => {
       changeConfig(config.color, config.size);
@@ -124,13 +134,7 @@ const Home: React.FC = () => {
     const handleMouseDown = (e: MouseEvent | TouchEvent) => {
       shouldDraw.current = true;
       console.log(activeMenuItem);
-      if (canvasRef.current) {
-        if (activeMenuItem === 'ERASER') {
-          canvasRef.current.style.cursor = 'url(/eraser-icon.png), auto'; // Adjust path as needed
-        } else {
-          canvasRef.current.style.cursor = 'url(/pencil.svg), auto'; // Adjust path as needed
-        }
-      }
+      
      // canvasRef.current?.classList.add(styles.drawing); 
       beginPath(
         (e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX,
