@@ -75,6 +75,20 @@ const Home: React.FC = () => {
 
     dispatch(actionItemClick(null));
   }, [actionMenuItem, dispatch]);
+  useEffect(() => {
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext("2d")!;
+      if (activeMenuItem === 'ERASER') {
+        canvasRef.current.style.cursor = 'url(/eraser.svg) 0 0, auto'; // Adjust path as needed
+        context.globalCompositeOperation = 'destination-out';
+        context.strokeStyle = 'rgba(0,0,0,1)'; // Color doesn't matter, but alpha should be 1
+      } else {
+        canvasRef.current.style.cursor = 'url(/pencil.svg) 0 0, auto'; // Adjust path as needed
+        context.globalCompositeOperation = 'source-over';
+        // context.strokeStyle should be set to the desired color for the pencil
+      }
+    }
+  }, [activeMenuItem]);
   
 
   useEffect(() => {
@@ -87,6 +101,7 @@ const Home: React.FC = () => {
       context.strokeStyle = newColor;
       context.lineWidth = newSize;
     };
+   
 
     const handleChangeConfig = (config: { color: string; size: number }) => {
       changeConfig(config.color, config.size);
@@ -124,13 +139,7 @@ const Home: React.FC = () => {
     const handleMouseDown = (e: MouseEvent | TouchEvent) => {
       shouldDraw.current = true;
       console.log(activeMenuItem);
-      if (canvasRef.current) {
-        if (activeMenuItem === 'ERASER') {
-          canvasRef.current.style.cursor = 'url(/eraser-icon.png), auto'; // Adjust path as needed
-        } else {
-          canvasRef.current.style.cursor = 'url(/pencil.svg), auto'; // Adjust path as needed
-        }
-      }
+      
      // canvasRef.current?.classList.add(styles.drawing); 
       beginPath(
         (e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX,
