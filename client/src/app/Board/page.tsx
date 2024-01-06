@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { MENU_ITEMS } from "../constants";
@@ -7,6 +7,10 @@ import { actionItemClick } from "../slice/menuSlice";
 
 import { socket } from "../socket";
 import styles from './index.module.css';
+import useDarkMode from "../useDarkMode";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+
 
 interface RootState {
   menu: {
@@ -22,20 +26,14 @@ interface RootState {
   };
 }
 
-interface Path {
-  x: number;
-  y: number;
-}
-
 const Home: React.FC = () => {
- 
- 
+  const [colorTheme, setTheme] = useDarkMode();
+
   const dispatch = useDispatch();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawHistory = useRef<ImageData[]>([]);
   const historyPointer = useRef<number>(0);
   const shouldDraw = useRef<boolean>(false);
-  
 
   const { activeMenuItem, actionMenuItem } = useSelector(
     (state: RootState) => state.menu
@@ -43,8 +41,6 @@ const Home: React.FC = () => {
   const { color, size } = useSelector(
     (state: RootState) => state.toolbox[activeMenuItem]
   );
-  const activeTool = useSelector((state: RootState) => state.toolbox[activeMenuItem]);
- 
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -75,21 +71,20 @@ const Home: React.FC = () => {
 
     dispatch(actionItemClick(null));
   }, [actionMenuItem, dispatch]);
+
   useEffect(() => {
     if (canvasRef.current) {
       const context = canvasRef.current.getContext("2d")!;
       if (activeMenuItem === 'ERASER') {
-        canvasRef.current.style.cursor = 'url(/eraser.svg) 0 0, auto'; // Adjust path as needed
+        canvasRef.current.style.cursor = 'url(/eraser.svg) 0 0, auto';
         context.globalCompositeOperation = 'destination-out';
-        context.strokeStyle = 'rgba(0,0,0,1)'; // Color doesn't matter, but alpha should be 1
+        context.strokeStyle = 'rgba(0,0,0,1)';
       } else {
-        canvasRef.current.style.cursor = 'url(/pencil.svg) 0 0, auto'; // Adjust path as needed
+        canvasRef.current.style.cursor = 'url(/pencil.svg) 0 0, auto';
         context.globalCompositeOperation = 'source-over';
-        // context.strokeStyle should be set to the desired color for the pencil
       }
     }
   }, [activeMenuItem]);
-  
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -101,7 +96,6 @@ const Home: React.FC = () => {
       context.strokeStyle = newColor;
       context.lineWidth = newSize;
     };
-   
 
     const handleChangeConfig = (config: { color: string; size: number }) => {
       changeConfig(config.color, config.size);
@@ -134,13 +128,9 @@ const Home: React.FC = () => {
       context.lineTo(x, y);
       context.stroke();
     };
-    
 
     const handleMouseDown = (e: MouseEvent | TouchEvent) => {
       shouldDraw.current = true;
-      console.log(activeMenuItem);
-      
-     // canvasRef.current?.classList.add(styles.drawing); 
       beginPath(
         (e as MouseEvent).clientX || (e as TouchEvent).touches[0].clientX,
         (e as MouseEvent).clientY || (e as TouchEvent).touches[0].clientY
@@ -165,17 +155,11 @@ const Home: React.FC = () => {
 
     const handleMouseUp = () => {
       shouldDraw.current = false;
-  
-     // canvasRef.current?.classList.remove(styles.drawing, styles.eraser);
-    //  if (activeMenuItem === 'ERASER') {
-    //   canvasRef.current?.classList.remove(styles.eraser);
-    // } else {
-    //   canvasRef.current?.classList.remove(styles.drawing);
-    // }
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       drawHistory.current.push(imageData);
       historyPointer.current = drawHistory.current.length - 1;
     };
+
     const handleBeginPath = (path: { x: number; y: number }) => {
       beginPath(path.x, path.y);
     };
@@ -211,8 +195,26 @@ const Home: React.FC = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef}>
-  </canvas>
-};
-
-export default Home;
+  return (
+    <div className="h-screen w-screen p-10 dark:bg-gray-900 bg-indigo-200">
+      <div className="flex justify-end items-start absolute top-0 right-0 p-4">
+        {colorTheme === "light" ? (
+          <FontAwesomeIcon
+            icon={faSun}
+            onClick={() => setTheme('light')}
+            className="h-10 w-10 text-indigo-200 cursor-pointer"
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon={faMoon}
+            onClick={() => setTheme('dark')}
+            className="h-10 w-10 text-gray-900 cursor-pointer"
+          />
+        )}
+      </div>
+      <canvas ref={canvasRef}></canvas>
+    </div>
+  );
+  
+      };
+    export default Home;

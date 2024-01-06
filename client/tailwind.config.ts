@@ -6,6 +6,7 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: undefined,
   theme: {
     extend: {
       backgroundImage: {
@@ -27,7 +28,8 @@ const config: Config = {
       white: '#FFFCF7',
       purple: '#fae8ff',
       blue: '#ADD8E6',
-      pink: '#FFB6C1'
+      pink: '#FFB6C1',
+      black: '#000000'
     }
   },
   plugins: [],

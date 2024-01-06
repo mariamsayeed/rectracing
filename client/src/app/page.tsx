@@ -7,6 +7,7 @@ import CanvasBgColor from "./CanvasBgColor";
 import Camera from "./Camera";
 
 
+
 export default function Home() {
   return (
     <div>
