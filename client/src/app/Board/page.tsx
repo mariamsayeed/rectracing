@@ -82,33 +82,37 @@ const Home: React.FC = () => {
       } else {
         canvasRef.current.style.cursor = 'url(/pencil.svg) 0 0, auto';
         context.globalCompositeOperation = 'source-over';
+        context.strokeStyle = colorTheme === 'dark' ? 'white' : color;
       }
     }
-  }, [activeMenuItem]);
+  }, [activeMenuItem, colorTheme]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d")!;
+    context.lineWidth = size;
 
-    const changeConfig = (newColor: string, newSize: number) => {
-      context.strokeStyle = newColor;
-      context.lineWidth = newSize;
-    };
 
-    const handleChangeConfig = (config: { color: string; size: number }) => {
-      changeConfig(config.color, config.size);
-    };
-
-    changeConfig(color, size);
+      // Set the pencil color based on the theme
+     context.strokeStyle = colorTheme === 'light' ? 'white' : color;
+    
+      
+    
+      const handleChangeConfig = (config: { color: string; size: number }) => {
+        changeConfig(config.color, config.size);
+      };
+    
+  
+  //  changeConfig(color, size);
 
     // If you are not using socket, you can remove the following lines:
     socket.on("changeConfig", handleChangeConfig);
     return () => {
       socket.off("changeConfig", handleChangeConfig);
     };
-  }, [color, size]);
+  }, [color, size, colorTheme]);
 
   useLayoutEffect(() => {
     if (!canvasRef.current) return;
@@ -218,3 +222,7 @@ const Home: React.FC = () => {
   
       };
     export default Home;
+
+function changeConfig(color: string, size: number) {
+  throw new Error("Function not implemented.");
+}
