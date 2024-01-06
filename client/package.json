@@ -14,6 +14,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@heroicons/react": "^2.1.1",
     "@mui/base": "^5.0.0-beta.29",
     "@mui/system": "^5.15.2",
     "@reduxjs/toolkit": "^2.0.1",

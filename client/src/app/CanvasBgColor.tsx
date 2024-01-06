@@ -45,10 +45,11 @@ document.body.style.backgroundColor = String(backgroundColor);
     <div style={{ position: 'absolute', bottom: 0, left: 0 }}>
       <Tabs value={value} onChange={handleChange}>
         <TabsList>
+       
         <Tab value={0} style={value === 0 ? { color: 'black' } : {}}>white</Tab>
-          <Tab value={1} style={value === 1 ? { color: 'black' } : {}}>purple</Tab>
-          <Tab value={2} style={value === 2 ? { color: 'black' } : {}}>blue</Tab>
-          <Tab value={3} style={value === 3 ? { color: 'black' } : {}}>pink</Tab>
+          <Tab value={1} style={value === 1 ? { color: 'purple' } : {}}>purple</Tab>
+          <Tab value={2} style={value === 2 ? { color: 'blue' } : {}}>blue</Tab>
+          <Tab value={3} style={value === 3 ? { color: 'pink' } : {}}>pink</Tab>
         </TabsList>
       </Tabs>
     </div>
@@ -112,7 +113,7 @@ const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((props, ref) =>
     <BaseTabPanel
       ref={ref}
       className={clsx(
-        'py-5 px-3 bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-700 rounded-xl opacity-60 w-full font-sans text-sm',
+        'py-5 px-3 bg- dark:bg-black-900 border border-solid border-slate-200 dark:border-slate-700 rounded-xl opacity-60 w-full font-sans text-sm',
         className,
       )}
       {...other}
