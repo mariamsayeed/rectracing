@@ -28,23 +28,18 @@ interface RootState {
 
 const Home: React.FC = () => {
   const [colorTheme, setTheme] = useDarkMode();
-
   const dispatch = useDispatch();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawHistory = useRef<ImageData[]>([]);
   const historyPointer = useRef<number>(0);
   const shouldDraw = useRef<boolean>(false);
 
-  const { activeMenuItem, actionMenuItem } = useSelector(
-    (state: RootState) => state.menu
-  );
-  const { color, size } = useSelector(
-    (state: RootState) => state.toolbox[activeMenuItem]
-  );
+  const { activeMenuItem, actionMenuItem } = useSelector((state: RootState) => state.menu);
+  const { color, size } = useSelector((state: RootState) => state.toolbox[activeMenuItem]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
-
+    
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d")!;
 
@@ -103,10 +98,7 @@ const Home: React.FC = () => {
       const handleChangeConfig = (config: { color: string; size: number }) => {
         changeConfig(config.color, config.size);
       };
-    
-  
-  //  changeConfig(color, size);
-
+    //  changeConfig(color, size);
     // If you are not using socket, you can remove the following lines:
     socket.on("changeConfig", handleChangeConfig);
     return () => {

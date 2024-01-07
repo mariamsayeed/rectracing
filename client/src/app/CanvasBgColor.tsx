@@ -7,7 +7,7 @@ import { Tab as BaseTab, TabProps } from '@mui/base/Tab';
 import { useTheme } from '@mui/system';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfig from '../../tailwind.config';
-import config from '../../tailwind.config';
+// import config from '../../tailwind.config';
 
 declare module '@mui/system' {
     interface CustomThemeConfig {
@@ -39,7 +39,7 @@ export default function CanvasBgColor() {
     fullConfig.theme.colors['pink'],
   ];
   const backgroundColor = backgroundColors[value];
-document.body.style.backgroundColor = String(backgroundColor);
+  document.body.style.backgroundColor = String(backgroundColor);
 
   return (
     <div style={{ position: 'absolute', bottom: 0, left: 0 }}>
