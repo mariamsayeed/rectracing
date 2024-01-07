@@ -39,7 +39,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    
+
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d")!;
 
@@ -192,7 +192,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="h-screen w-screen p-10 dark:bg-gray-900 bg-indigo-200">
+    <div className="h-screen w-screen dark:bg-gray-700 bg-indigo-200">
       <div className="flex justify-end items-start absolute top-0 right-0 p-4">
         {colorTheme === "light" ? (
           <FontAwesomeIcon

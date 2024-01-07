@@ -1,6 +1,9 @@
 // RecButton.jsx
 
 import React, { useState, useRef } from "react";
+import Camera from "./Camera";
+import { FaCirclePlay, FaDownload } from "react-icons/fa6";
+import { FaRegStopCircle } from "react-icons/fa";
 
 const RecButton: React.FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -9,11 +12,23 @@ const RecButton: React.FC = () => {
 
   const startRecording = async (): Promise<void> => {
     try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: true
+      let videoStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+      });
+      let audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
       });
 
-      const mediaRecorder = new MediaRecorder(stream);
+      const combinedStream = new MediaStream();
+
+      videoStream
+        .getTracks()
+        .forEach((track) => combinedStream.addTrack(track));
+      audioStream
+        .getTracks()
+        .forEach((track) => combinedStream.addTrack(track));
+
+      const mediaRecorder = new MediaRecorder(combinedStream);
       mediaRecorder.ondataavailable = handleDataAvailable;
       mediaRecorderRef.current = mediaRecorder;
       mediaRecorder.start();
@@ -52,62 +67,56 @@ const RecButton: React.FC = () => {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "screen-recording.webm";
+    const date = new Date();
+    a.download = `recording-${date.toISOString()}.webm`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="absolute">
-      <div>
-        {isRecording ? (
-          <button
-            className="mt-4 ml-4 bg-text3 hover:bg-text2 text-white font-semibold py-1 px-2 border-b-2 border-solid hover:border-solid border-text4 rounded-md"
-            onClick={stopRecording}
-          >
-            Stop Recording
-          </button>
-        ) : (
-          <button
-            className="mt-4 ml-4 bg-text3 hover:bg-text2 text-white font-semibold py-1 px-2 border-b-2 border-solid hover:border-solid border-text4 rounded-md"
-            onClick={startRecording}
-          >
-            Start Recording
-          </button>
+    <>
+      <div className="absolute recordContainer">
+        <div>
+          {isRecording ? (
+            <button onClick={stopRecording}>
+              <FaRegStopCircle />
+            </button>
+          ) : (
+            <button onClick={startRecording}>
+              <FaCirclePlay />
+            </button>
+          )}
+        </div>
+        <Camera />
+        {recordedChunks.length > 0 && (
+          <div>
+            <button
+              className=""
+              onClick={() =>
+                downloadRecording(
+                  URL.createObjectURL(
+                    new Blob(recordedChunks, { type: "video/webm" })
+                  )
+                )
+              }
+            >
+              <FaDownload />
+            </button>
+          </div>
         )}
       </div>
-
       {recordedChunks.length > 0 && (
-        <div>
-          <button
-            className="mt-4 ml-4 bg-text3 hover:bg-text2 text-white font-semibold py-1 px-2 border-b-4 border-solid hover:border-solid rounded"
-            onClick={() =>
-              downloadRecording(
-                URL.createObjectURL(
-                  new Blob(recordedChunks, { type: "video/webm" })
-                )
-              )
-            }
-          >
-            <svg
-              className="fill-current w-4 h-4 mr-2 inline-block align-middle"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-            </svg>
-            Download
-          </button>
+        <div className="absolute bottom-20 left-5">
           <video
             controls
             src={URL.createObjectURL(
               new Blob(recordedChunks, { type: "video/webm" })
             )}
-            className="w-64 h-48 mt-4 ml-4"
+            className="w-[300px] h-[200px] aspect-video border-2 border-[#b8b8b8] rounded-lg"
           />
         </div>
       )}
-    </div>
+    </>
   );
 };
 

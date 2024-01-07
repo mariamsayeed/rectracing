@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { FiCamera ,FiCameraOff  } from "react-icons/fi";
 
 const Camera = () => {
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -44,7 +45,7 @@ const Camera = () => {
   return (
     <div>
       <button onClick={handleCameraToggle}>
-        {isCameraOn ? 'Turn camera off' : 'Turn camera on'}
+        {isCameraOn ? <FiCameraOff/>:<FiCamera/>}
       </button>
       {isCameraOn && (
         <div
