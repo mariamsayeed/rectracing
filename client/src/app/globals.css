@@ -15,7 +15,7 @@ html.dark {
   border: 1px solid theme("colors.border1");
   box-shadow: theme("colors.shadow1");
   background-color: theme("colors.background1");
-
+  color: theme("colors.text1");
   .iconWrapper {
     @apply cursor-pointer flex justify-center items-center rounded-md;
 

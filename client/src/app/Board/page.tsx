@@ -71,12 +71,12 @@ const Home: React.FC = () => {
     if (canvasRef.current) {
       const context = canvasRef.current.getContext("2d")!;
       if (activeMenuItem === 'ERASER') {
-        canvasRef.current.style.cursor = 'url(/eraser.svg) 0 0, auto';
+        canvasRef.current.style.cursor = colorTheme=== 'dark'? 'url(/eraser.svg) 0 0, auto':'url(/eraser2.svg) 0 0, auto';
         context.globalCompositeOperation = 'destination-out';
         context.strokeStyle = 'rgba(0,0,0,1)';
       } else {
-        canvasRef.current.style.cursor = 'url(/pencil.svg) 0 0, auto';
-        context.globalCompositeOperation = 'source-over';
+        canvasRef.current.style.cursor = colorTheme=== 'dark'? 'url(/pencil.svg) 0 0, auto':'url(/pencil2.svg) 0 0, auto';
+        context.globalCompositeOperation = 'source-over'; 
         context.strokeStyle = colorTheme === 'dark' ? 'white' : color;
       }
     }
