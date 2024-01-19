@@ -72,6 +72,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>((props, ref) =>
     />
   );
 });
+TabsList.displayName = 'TabsList';
 
 const Tab = React.forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
   return (
