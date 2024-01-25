@@ -39,11 +39,20 @@ export default function CanvasBgColor() {
     fullConfig.theme.colors['blue'],
     fullConfig.theme.colors['pink'],
   ];
-  const backgroundColor = backgroundColors[value];
-  document.body.style.backgroundColor = String(backgroundColor);
+  const backgroundColor = backgroundColors[value].toString();
+  console.log(backgroundColor);
+  const bodyClassName = `bg-[${backgroundColor}]`;
+  React.useEffect(() => {
+    document.body.style.backgroundColor = backgroundColor;
+    return () => {
+      document.body.style.backgroundColor = '';
+    };
+  });
+  // const root = window.document.documentElement;
+  // root.classList.add(bodyClassName);
 
   return (
-    <div style={{ position: 'absolute', bottom: 0, left: 0 }}>
+    <div  style={{ position: 'absolute', bottom: 0, left: 0 }}>
       <Tabs value={value} onChange={handleChange}>
         <TabsList>
        
