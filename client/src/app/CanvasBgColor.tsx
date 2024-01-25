@@ -81,6 +81,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>((props, ref) =>
     />
   );
 });
+TabsList.displayName = 'TabsList';
 
 const Tab = React.forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
   return (
@@ -115,7 +116,7 @@ const Tab = React.forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
     />
   );
 });
-
+Tab.displayName = 'Tab';
 const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((props, ref) => {
   const { className, ...other } = props;
   return (
@@ -129,3 +130,4 @@ const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((props, ref) =>
     />
   );
 });
+TabPanel.displayName = 'TabPanel';
