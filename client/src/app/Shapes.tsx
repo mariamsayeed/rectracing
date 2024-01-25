@@ -7,7 +7,7 @@ import {
   LineIcon,
   RectangleIcon,
   TextIcon,
-} from './icon';
+} from './icons';
 
 const SHAPES = [
   { icon: ArrowIcon, value: 'Arrow' },
