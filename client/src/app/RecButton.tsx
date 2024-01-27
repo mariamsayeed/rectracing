@@ -1,5 +1,5 @@
 // RecButton.jsx
-
+"use client";
 import React, { useState, useRef ,useEffect} from "react";
 import Camera from "./Camera";
 import { FaCirclePlay, FaDownload } from "react-icons/fa6";
