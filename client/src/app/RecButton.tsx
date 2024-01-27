@@ -1,6 +1,6 @@
 // RecButton.jsx
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef ,useEffect} from "react";
 import Camera from "./Camera";
 import { FaCirclePlay, FaDownload } from "react-icons/fa6";
 import { FaRegStopCircle } from "react-icons/fa";
@@ -9,24 +9,17 @@ const RecButton: React.FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const documentRef = useRef<HTMLAnchorElement | null>(null);
 
   const startRecording = async (): Promise<void> => {
     try {
-      let videoStream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
-      });
-      let audioStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
+      let videoStream = await navigator.mediaDevices.getDisplayMedia({video: true,});
+      let audioStream = await navigator.mediaDevices.getUserMedia({audio: true,});
 
       const combinedStream = new MediaStream();
 
-      videoStream
-        .getTracks()
-        .forEach((track) => combinedStream.addTrack(track));
-      audioStream
-        .getTracks()
-        .forEach((track) => combinedStream.addTrack(track));
+      videoStream.getTracks().forEach((track) => combinedStream.addTrack(track));
+      audioStream.getTracks().forEach((track) => combinedStream.addTrack(track));
 
       const mediaRecorder = new MediaRecorder(combinedStream);
       mediaRecorder.ondataavailable = handleDataAvailable;
@@ -62,16 +55,18 @@ const RecButton: React.FC = () => {
     }
   };
 
-  const downloadRecording = async (url: string): Promise<void> => {
+  const downloadRecording = async (url: string):Promise<void> => {
     await new Promise((resolve) => setTimeout(resolve, 100));
+    //const a = document.createElement("a");
+    if(documentRef.current){
+      documentRef.current.href = url;
+      const date = new Date();
+      documentRef.current.download = `recording-${date.toISOString()}.webm`;
+      documentRef.current.click();
+      window.URL.revokeObjectURL(url);
+    }
 
-    const a = document.createElement("a");
-    a.href = url;
-    const date = new Date();
-    a.download = `recording-${date.toISOString()}.webm`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  };
+  }; 
 
   return (
     <>
@@ -90,6 +85,7 @@ const RecButton: React.FC = () => {
         <Camera />
         {recordedChunks.length > 0 && (
           <div>
+            <a ref={documentRef}></a>
             <button
               className=""
               onClick={() =>

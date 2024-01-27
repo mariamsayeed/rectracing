@@ -33,6 +33,7 @@ const Home: React.FC = () => {
   const drawHistory = useRef<ImageData[]>([]);
   const historyPointer = useRef<number>(0);
   const shouldDraw = useRef<boolean>(false);
+  const anchorRef = useRef<HTMLAnchorElement | null>(null);
 
   const { activeMenuItem, actionMenuItem } = useSelector((state: RootState) => state.menu);
   const { color, size } = useSelector((state: RootState) => state.toolbox[activeMenuItem]);
@@ -45,10 +46,11 @@ const Home: React.FC = () => {
 
     if (actionMenuItem === MENU_ITEMS.DOWNLOAD) {
       const URL = canvas.toDataURL();
-      const anchor = document.createElement("a");
-      anchor.href = URL;
-      anchor.download = "sketch.jpg";
-      anchor.click();
+      if(anchorRef.current){
+        anchorRef.current.href = URL;
+        anchorRef.current.download = "sketch.jpg";
+        anchorRef.current.click();
+      }
     } else if (
       actionMenuItem === MENU_ITEMS.UNDO ||
       actionMenuItem === MENU_ITEMS.REDO
@@ -209,6 +211,7 @@ const Home: React.FC = () => {
         )}
       </div>
       <canvas ref={canvasRef}></canvas>
+      <a ref={anchorRef}></a>
     </div>
   );
   
