@@ -4,9 +4,9 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({origin: "http://localhost:3000"}));
+app.use(cors({origin: ["http://localhost:3000","https://rectracing12.vercel.app/"] }));
 const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: 'http://localhost:3000' });
+const io = new Server(httpServer, { cors: ['http://localhost:3000',"https://rectracing12.vercel.app/"] });
 
 io.on("connection", (socket) => {
     console.log("a user connected");
