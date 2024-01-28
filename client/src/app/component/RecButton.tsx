@@ -2,12 +2,16 @@
 "use client";
 import React, { useState, useRef ,useEffect} from "react";
 import Camera from "./Camera";
+import Team from "./Team";
 import { FaCirclePlay, FaDownload } from "react-icons/fa6";
 import { FaRegStopCircle } from "react-icons/fa";
+import { IoMdPersonAdd } from "react-icons/io";
 
 const RecButton: React.FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const documentRef = useRef<HTMLAnchorElement | null>(null);
 
@@ -67,6 +71,10 @@ const RecButton: React.FC = () => {
     }
 
   }; 
+  const onClose = () => {
+    setShowModal(false);
+  }
+
 
   return (
     <>
@@ -100,6 +108,11 @@ const RecButton: React.FC = () => {
             </button>
           </div>
         )}
+        <div>
+          <button onClick={()=> setShowModal(true)}>
+            <IoMdPersonAdd />
+          </button>
+        </div>
       </div>
       {recordedChunks.length > 0 && (
         <div className="absolute bottom-20 left-5">
@@ -111,6 +124,9 @@ const RecButton: React.FC = () => {
             className="w-[300px] h-[200px] aspect-video border-2 border-[#b8b8b8] rounded-lg"
           />
         </div>
+      )}
+      {showModal && (
+        <Team isOpen={showModal} onClose={onClose}/>
       )}
     </>
   );

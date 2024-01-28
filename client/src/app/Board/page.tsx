@@ -10,21 +10,9 @@ import styles from './index.module.css';
 import useDarkMode from "../useDarkMode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { RootState } from "../utils/interfaces";
 
 
-interface RootState {
-  menu: {
-    activeMenuItem: string;
-    actionMenuItem: string;
-  };
-  toolbox: {
-    [key: string]: {
-      type: string;
-      color: string;
-      size: number;
-    };
-  };
-}
 
 const Home: React.FC = () => {
   const [colorTheme, setTheme] = useDarkMode();
@@ -100,8 +88,6 @@ const Home: React.FC = () => {
       const handleChangeConfig = (config: { color: string; size: number }) => {
         changeConfig(config.color, config.size);
       };
-    //  changeConfig(color, size);
-    // If you are not using socket, you can remove the following lines:
     socket.on("changeConfig", handleChangeConfig);
     return () => {
       socket.off("changeConfig", handleChangeConfig);

@@ -7,7 +7,7 @@ import { TabPanel as BaseTabPanel, TabPanelProps } from '@mui/base/TabPanel';
 import { Tab as BaseTab, TabProps } from '@mui/base/Tab';
 import { useTheme } from '@mui/system';
 import resolveConfig from 'tailwindcss/resolveConfig';
-import tailwindConfig from '../../tailwind.config';
+import tailwindConfig from '../../../tailwind.config';
 // import config from '../../tailwind.config';
 
 declare module '@mui/system' {
