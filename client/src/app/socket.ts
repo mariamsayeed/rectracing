@@ -5,7 +5,7 @@ import { store } from "../app/store";
 const url = process.env.NEXT_PUBLIC_PRODUCTION? "https://socketio-797d.onrender.com": "http://localhost:5000";
 
 export const socket = io(url, {
-    auth: { accessKey:"123" },
+    auth: { accessKey:"123" }
   });
 // Export the socket instance
 
